@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aurélien Ridard | Data Engineering Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Outfit:wght@600;700&amp;family=Geist:wght@500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#000000",
+                        "inverse-primary": "#cfbcff",
+                        "on-primary-fixed": "#22005d",
+                        "tertiary-fixed": "#ffdf93",
+                        "on-error": "#ffffff",
+                        "primary-container": "#6750a4",
+                        "tertiary": "#765b00",
+                        "on-secondary-fixed-variant": "#4b4263",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-container": "#c9a74d",
+                        "surface": "#111111",
+                        "on-secondary-fixed": "#1f1635",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#e9ddff",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#4ade80",
+                        "inverse-surface": "#f5eff7",
+                        "surface-bright": "#1a1a1a",
+                        "surface-dim": "#0a0a0a",
+                        "secondary-fixed": "#e9ddff",
+                        "primary": "#4ade80",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-low": "#0d0d0d",
+                        "on-primary-container": "#e0d2ff",
+                        "secondary-fixed-dim": "#cdc0e9",
+                        "surface-container": "#1a1a1a",
+                        "on-tertiary-container": "#503d00",
+                        "outline-variant": "#333333",
+                        "inverse-on-surface": "#1d1b20",
+                        "surface-container-highest": "#333333",
+                        "on-tertiary-fixed-variant": "#594400",
+                        "secondary": "#63597c",
+                        "on-background": "#fdf7ff",
+                        "outline": "#7a7582",
+                        "on-primary-fixed-variant": "#4f378a",
+                        "surface-variant": "#2a2a2a",
+                        "on-surface-variant": "#cbc4d2",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#645a7d",
+                        "on-surface": "#fdf7ff",
+                        "secondary-container": "#e1d4fd",
+                        "primary-fixed-dim": "#cfbcff",
+                        "surface-container-lowest": "#050505",
+                        "tertiary-fixed-dim": "#e7c365",
+                        "on-primary": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "section-gap": "120px",
+                        "section-gap-mobile": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "metric-num": ["Geist"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "display-xl": ["Outfit"],
+                        "display-xl-mobile": ["Outfit"],
+                        "mono-label": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "metric-num": ["24px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-xl": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-xl-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "mono-label": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { cursor: none; }
+        #custom-cursor {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #4ade80;
+            border-radius: 50%;
+            z-index: 9999;
+            transition: transform 0.1s ease-out, width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        #custom-cursor.hover {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(74, 222, 128, 0.2);
+        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .timeline-line { background: linear-gradient(to bottom, #4ade80, transparent); }
+        .typewriting::after { content: '_'; animation: blink 0.7s infinite; font-weight: bold; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+            display: flex;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+        .terminal-shadow { box-shadow: 0 0 20px rgba(74, 222, 128, 0.1); }
+    </style>
+</head>
+<body class="bg-background text-on-background transition-colors duration-500">
+<div class="hidden md:block" id="custom-cursor"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-[100] glass-nav border-b border-outline-variant/30 bg-surface/80">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-gutter h-20">
+<span class="font-headline-lg text-headline-lg font-bold tracking-tighter text-on-surface">AURÉLIEN<span class="text-primary">.</span></span>
+<div class="hidden md:flex gap-8">
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors" data-i18n="nav-about" href="#about">À Propos</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors" data-i18n="nav-education" href="#education">Éducation</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors" data-i18n="nav-experience" href="#experience">Expérience</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors" data-i18n="nav-projects" href="#projects">Projets</a><a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors" data-i18n="nav-resume" href="#resume">CV</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors" data-i18n="nav-contact" href="#contact">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="p-2 rounded-full hover:bg-primary/10 transition-all text-on-surface-variant hover:text-primary hidden md:block" href="https://github.com/BabaDLero" target="_blank">
+<svg class="w-6 h-6 fill-current" viewbox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+</a>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-primary/10 transition-all font-mono-label text-mono-label border border-outline-variant/30" id="lang-toggle">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span id="lang-label">EN</span>
+</button>
+<button class="p-2 rounded-full hover:bg-primary/10 transition-all active:scale-95" id="theme-toggle">
+<span class="material-symbols-outlined text-primary">dark_mode</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative min-h-screen flex items-center pt-20 px-gutter overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#4ade80 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="relative z-10 max-w-container-max mx-auto w-full">
+<div class="max-w-[850px] reveal active">
+<h2 class="font-mono-label text-mono-label text-primary mb-4 tracking-widest uppercase" data-i18n="hero-subtitle">Étudiant en Data Engineering</h2>
+<h1 class="font-display-xl text-display-xl-mobile md:text-display-xl mb-6">Aurélien <span class="text-primary italic">Ridard</span></h1>
+<div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-2xl terminal-shadow mb-10 max-w-2xl">
+<div class="flex gap-2 mb-4">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+</div>
+<p class="font-mono-label text-xl md:text-2xl text-on-surface-variant flex items-center gap-3">
+<span class="text-primary">$</span>
+<span class="typewriting" id="typewriter">SQL (BigQuery, PostgreSQL)</span>
+</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<a class="inline-flex items-center gap-4 bg-primary text-on-primary px-8 py-4 rounded-xl font-bold transition-all hover:scale-105 active:scale-95 group" href="#projects">
+<span data-i18n="hero-cta">Voir mes travaux</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+<a class="inline-flex items-center gap-4 bg-surface border border-outline-variant/30 text-on-surface px-8 py-4 rounded-xl font-bold transition-all hover:border-primary active:scale-95" href="https://github.com/BabaDLero" target="_blank">
+<span>GitHub</span>
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</header>
+<!-- About Section -->
+<section class="py-section-gap px-gutter bg-surface-container-lowest" id="about">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+<div class="md:col-span-7 reveal active">
+<h2 class="font-headline-lg text-headline-lg mb-8 border-l-4 border-primary pl-6" data-i18n="about-title">À propos de moi</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 leading-relaxed" data-i18n="about-text">
+                Étudiant en 5e année d’école d’ingénieur à l’EFREI Paris, passionné par les données et l’intelligence artificielle. 
+                À la recherche d’un stage de 6 mois en Data Analyse ou Data/IA pour mettre à disposition mes compétences techniques, 
+                ma rigueur analytique et mon sens du travail en équipe.
+            </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<span class="font-body-md text-body-md">Sartrouville, France</span>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary">mail</span>
+<span class="font-body-md text-body-md">aurelien.ridard@efrei.net</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-5 flex justify-center reveal active">
+<div class="relative w-64 h-64 md:w-80 md:h-80 rounded-3xl overflow-hidden group border border-primary/20">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhyga5D11QuXvYE89uhOxmfuCKR5NhvzpwscB4CzSsAg_z3cWvngov32qvPGMTKqxDhomiEzS3RqlNLsaOFCwPvtBfvllEE8e1gy5wj4GTjzH6TjadSTnJ0vI4du0eaM3q-2GqQPnVbFP1gbgBiQlFQSjfmSMS_wzYVUfIS-zf8wN8DaW69-_9kFt5q5OEJxIGiF8q-awt6pVqGFTYeNsDDQ0d7lQWWWpufM92qzocIe7qHMYUBtPBgjKlTBFtdxJ7hPjjdxGlPu5S"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+<div class="absolute inset-0 border-2 border-primary/50 m-4 rounded-2xl pointer-events-none group-hover:m-0 transition-all"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Education Section -->
+<section class="py-section-gap px-gutter overflow-hidden bg-background" id="education">
+<div class="max-w-container-max mx-auto mb-16">
+<h2 class="font-headline-lg text-headline-lg reveal active" data-i18n="education-title">Éducation</h2>
+</div>
+<div class="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory no-scrollbar scroll-smooth reveal active">
+<div class="min-w-[320px] md:min-w-[400px] snap-center bg-surface border border-outline-variant/30 p-10 rounded-2xl group hover:border-primary transition-all duration-300">
+<span class="font-mono-label text-mono-label text-primary mb-4 block">2022 - 2025</span>
+<h3 class="font-headline-lg text-headline-lg mb-2">Efrei Paris</h3>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="edu-1">Cycle Ingénieur en Informatique spécialisé en Data Engineering.</p>
+<div class="mt-6 w-full h-1 bg-outline-variant group-hover:bg-primary transition-colors"></div>
+</div>
+<div class="min-w-[320px] md:min-w-[400px] snap-center bg-surface border border-outline-variant/30 p-10 rounded-2xl group hover:border-primary transition-all duration-300">
+<span class="font-mono-label text-mono-label text-primary mb-4 block">2024</span>
+<h3 class="font-headline-lg text-headline-lg mb-2" data-i18n="edu-2-title">Échange Académique</h3>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="edu-2">Manipal, Inde. Semestre à l'étranger en Science et Technologie de l'Information.</p>
+<div class="mt-6 w-full h-1 bg-outline-variant group-hover:bg-primary transition-colors"></div>
+</div>
+<div class="min-w-[320px] md:min-w-[400px] snap-center bg-surface border border-outline-variant/30 p-10 rounded-2xl group hover:border-primary transition-all duration-300">
+<span class="font-mono-label text-mono-label text-primary mb-4 block">2022</span>
+<h3 class="font-headline-lg text-headline-lg mb-2">Baccalauréat Scientifique</h3>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="edu-3">Mention Assez Bien. Spécialités Mathématiques et Physique.</p>
+<div class="mt-6 w-full h-1 bg-outline-variant group-hover:bg-primary transition-colors"></div>
+</div>
+</div>
+</section>
+<!-- Experience Section -->
+<section class="py-section-gap px-gutter bg-surface-container-low" id="experience">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-16 reveal active" data-i18n="experience-title">Expérience Professionnelle</h2>
+<div class="relative pl-8 md:pl-0">
+<div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 timeline-line hidden md:block"></div>
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 reveal active">
+<div class="md:text-right">
+<h3 class="font-headline-lg text-headline-lg">Data Scientist</h3>
+<p class="font-mono-label text-mono-label text-primary">Coopérative U • 2025 - 2026</p>
+</div>
+<div class="md:pl-12 border-l-2 border-primary md:border-l-0">
+<ul class="space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<span data-i18n="exp-1-1">Pipelines BigQuery/Dataiku traitant plus de 50 milliards de lignes pour l'analyse retail.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<span data-i18n="exp-1-2">Développement de frameworks GenAI "LLM as a judge" avec LangChain.</span>
+</li>
+</ul>
+</div>
+<div class="absolute left-[-1.65rem] md:left-1/2 md:translate-x-[-50%] top-2 w-4 h-4 rounded-full bg-primary ring-8 ring-primary/20"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Section -->
+<section class="py-section-gap bg-background" id="skills">
+<div class="max-w-container-max mx-auto px-gutter mb-16">
+<h2 class="font-headline-lg text-headline-lg reveal active" data-i18n="skills-title">Compétences Techniques</h2>
+</div>
+<!-- Technology Slider -->
+<div class="w-full overflow-hidden bg-surface-container-lowest/50 py-12 mb-16 border-y border-outline-variant/20">
+<div class="animate-scroll gap-8 md:gap-16 items-center">
+<div class="flex gap-8 md:gap-16 items-center">
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">code</span> Python</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">database</span> SQL</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">cloud</span> Azure</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">analytics</span> BigQuery</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">hub</span> Spark</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">terminal</span> Bash</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">schema</span> MongoDB</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">monitoring</span> Dataiku</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">psychology</span> GenAI</span>
+</div>
+<!-- Duplicate for seamless loop -->
+<div class="flex gap-8 md:gap-16 items-center">
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">code</span> Python</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">database</span> SQL</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">cloud</span> Azure</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">analytics</span> BigQuery</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">hub</span> Spark</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">terminal</span> Bash</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">schema</span> MongoDB</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">monitoring</span> Dataiku</span>
+<span class="px-6 py-3 rounded-xl border border-primary text-primary font-bold text-xl flex items-center gap-3"><span class="material-symbols-outlined">psychology</span> GenAI</span>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-8 reveal active">
+<!-- Python Stack -->
+<div class="p-8 rounded-2xl bg-surface-container-low border border-outline-variant/30 hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">code</span>
+</div>
+<h3 class="font-headline-lg text-[20px]">Python Ecosystem</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">Scikit-learn</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">LangChain</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">Pandas / Numpy</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">PySpark</span>
+</div>
+</div>
+<!-- Big Data Stack -->
+<div class="p-8 rounded-2xl bg-surface-container-low border border-outline-variant/30 hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">database</span>
+</div>
+<h3 class="font-headline-lg text-[20px]">Big Data &amp; ETL</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">Apache Spark</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">Hadoop Principles</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">ETL Pipelines</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">Dataiku</span>
+</div>
+</div>
+<!-- Storage Stack -->
+<div class="p-8 rounded-2xl bg-surface-container-low border border-outline-variant/30 hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">storage</span>
+</div>
+<h3 class="font-headline-lg text-[20px]">Storage &amp; Cloud</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">PostgreSQL</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">BigQuery</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">MongoDB</span>
+<span class="px-3 py-1 rounded-full bg-primary/5 border border-primary/20 text-[13px] font-mono-label">Azure Cloud</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Projects Section -->
+<section class="py-section-gap px-gutter bg-surface-container-lowest" id="projects">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-16 reveal active" data-i18n="projects-title">Projets Académiques</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="md:col-span-7 bg-surface p-10 rounded-2xl border border-outline-variant/30 group hover:border-primary transition-all duration-500 reveal relative overflow-hidden active">
+<div class="relative z-10">
+<span class="font-mono-label text-mono-label text-primary mb-4 block uppercase tracking-widest">Data Pipeline</span>
+<h3 class="font-headline-lg text-[28px] mb-6">ANSSI Vulnerability Analyzer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-[400px]" data-i18n="proj-1">Pipeline Python traitant 3 779 vulnérabilités. Clustering K-Means avec RMSE de 0,024 pour les prévisions de sécurité.</p>
+</div>
+<div class="absolute right-0 bottom-0 w-64 h-64 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-[160px] text-primary">security</span>
+</div>
+</div>
+<div class="md:col-span-5 bg-surface p-10 rounded-2xl border border-outline-variant/30 group hover:border-primary transition-all duration-500 reveal overflow-hidden active">
+<div class="relative z-10">
+<span class="font-mono-label text-mono-label text-primary mb-4 block uppercase tracking-widest">Computer Vision</span>
+<h3 class="font-headline-lg text-[28px] mb-6">Deeptrash</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8" data-i18n="proj-2">Plateforme full-stack utilisant YOLOv8 pour la détection des déchets. Intégration Leaflet avec 80-90% de précision.</p>
+</div>
+<div class="absolute right-0 bottom-0 w-48 h-48 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-primary">delete</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="py-section-gap px-gutter bg-surface-container-low" id="resume">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-12 reveal active" data-i18n="resume-title">Curriculum Vitae</h2>
+<div class="flex flex-col items-center gap-8">
+<button class="inline-flex items-center gap-4 bg-transparent border-2 border-primary text-primary px-10 py-4 rounded-xl font-mono-label font-bold transition-all hover:bg-primary/10 active:scale-95 group terminal-shadow" id="cv-toggle-btn">
+<span class="material-symbols-outlined">description</span>
+<span data-i18n="resume-cta">Voir mon CV</span>
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform">expand_more</span>
+</button>
+<div class="w-full max-w-4xl hidden opacity-0 transition-all duration-500 overflow-hidden border-2 border-primary/30 rounded-2xl" id="cv-container">
+<img alt="CV Aurélien Ridard" class="w-full h-auto" src="cv.png"/>
+</div>
+<a href="CV%20RIDARD%20Aur%C3%A9lien%20(1).pdf" download class="inline-flex items-center gap-3 bg-primary text-on-primary px-8 py-4 rounded-xl font-bold transition-all hover:opacity-90 active:scale-95 mt-4">
+<span class="material-symbols-outlined">download</span>
+Télécharger le PDF
+</a>
+</div>
+</div>
+</section><section class="py-section-gap px-gutter bg-background" id="contact">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+<div class="reveal active">
+<h2 class="font-display-xl text-display-xl-mobile md:text-display-xl mb-8" data-i18n="contact-heading">Parlons <span class="text-primary italic">Ensemble</span></h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12" data-i18n="contact-text">Disponible pour un stage de 6 mois en Data Engineering ou Analytics à partir de 2025.</p>
+<div class="space-y-6">
+<a class="flex items-center gap-6 p-6 rounded-2xl bg-surface border border-outline-variant/30 hover:border-primary transition-all group" href="mailto:aurelien.ridard@efrei.net">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">alternate_email</span>
+<div>
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase">Email</p>
+<p class="font-body-lg text-body-lg">aurelien.ridard@efrei.net</p>
+</div>
+</a>
+<a class="flex items-center gap-6 p-6 rounded-2xl bg-surface border border-outline-variant/30 hover:border-primary transition-all group" href="https://www.linkedin.com/in/aur%C3%A9lien-ridard-994336252/" target="_blank">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">link</span>
+<div>
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase">LinkedIn</p>
+<p class="font-body-lg text-body-lg">Aurélien Ridard</p>
+</div>
+</a>
+<a class="flex items-center gap-6 p-6 rounded-2xl bg-surface border border-outline-variant/30 hover:border-primary transition-all group" href="https://github.com/BabaDLero" target="_blank">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">terminal</span>
+<div>
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase">GitHub</p>
+<p class="font-body-lg text-body-lg">@BabaDLero</p>
+</div>
+</a>
+</div>
+</div>
+<div class="bg-surface p-10 rounded-2xl border border-outline-variant/30 reveal active terminal-shadow">
+<form class="space-y-8">
+<div class="group">
+<label class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2 block" data-i18n="form-name">Nom Complet</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-4 focus:ring-0 focus:border-primary transition-colors font-body-md placeholder:text-outline/50" placeholder="Jean Dupont" type="text"/>
+</div>
+<div class="group">
+<label class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2 block">Email</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-4 focus:ring-0 focus:border-primary transition-colors font-body-md placeholder:text-outline/50" placeholder="email@exemple.com" type="email"/>
+</div>
+<div class="group">
+<label class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2 block">Message</label>
+<textarea class="w-full bg-transparent border-0 border-b border-outline-variant py-4 focus:ring-0 focus:border-primary transition-colors font-body-md placeholder:text-outline/50 min-h-[120px] resize-none" placeholder="Votre message ici..."></textarea>
+</div>
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-bold transition-all hover:opacity-90 active:scale-95" data-i18n="form-btn">Envoyer le message</button>
+</form>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="py-12 px-gutter border-t border-outline-variant/20 bg-surface">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter max-w-container-max mx-auto gap-6">
+<div class="flex flex-col gap-2">
+<span class="font-headline-lg text-xl font-bold tracking-tighter text-on-surface">AURÉLIEN<span class="text-primary">.</span></span>
+<p class="font-body-md text-sm text-on-surface-variant italic">© 2024 Data Engineering Portfolio.</p>
+</div>
+<div class="flex gap-8 items-center">
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="https://github.com/BabaDLero" target="_blank">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+GitHub
+</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="https://www.linkedin.com/in/aur%C3%A9lien-ridard-994336252/" target="_blank">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+LinkedIn
+</a>
+</div>
+</div>
+</footer>
+<script>
+    // I18n Content
+    const translations = {
+        fr: {
+            "nav-about": "À Propos",
+            "nav-education": "Éducation",
+            "nav-experience": "Expérience",
+            "nav-projects": "Projets",
+            "nav-resume": "CV",
+            "nav-contact": "Contact",
+            "hero-subtitle": "Étudiant en Data Engineering",
+            "hero-cta": "Voir mes travaux",
+            "about-title": "À propos de moi",
+            "about-text": "Étudiant en 5e année d’école d’ingénieur à l’EFREI Paris, passionné par les données et l’intelligence artificielle. À la recherche d’un stage de 6 mois en Data Analyse ou Data/IA pour mettre à disposition mes compétences techniques, ma rigueur analytique et mon sens du travail en équipe.",
+            "education-title": "Éducation",
+            "edu-1": "Cycle Ingénieur en Informatique spécialisé en Data Engineering.",
+            "edu-2-title": "Échange Académique",
+            "edu-2": "Manipal, Inde. Semestre à l'étranger en Science et Technologie de l'Information.",
+            "edu-3": "Mention Assez Bien. Spécialités Mathématiques et Physique.",
+            "experience-title": "Expérience Professionnelle",
+            "exp-1-1": "Pipelines BigQuery/Dataiku traitant plus de 50 milliards de lignes pour l'analyse retail.",
+            "exp-1-2": "Développement de frameworks GenAI 'LLM as a judge' avec LangChain.",
+            "skills-title": "Compétences Techniques",
+            "projects-title": "Projets Académiques",
+            "proj-1": "Pipeline Python traitant 3 779 vulnérabilités. Clustering K-Means avec RMSE de 0,024 pour les prévisions de sécurité.",
+            "proj-2": "Plateforme full-stack utilisant YOLOv8 pour la détection des déchets. Intégration Leaflet avec 80-90% de précision.",
+            "contact-heading": "Parlons Ensemble",
+            "contact-text": "Disponible pour un stage de 6 mois en Data Engineering ou Analytics à partir de 2025.",
+            "form-name": "Nom Complet",
+            "form-btn": "Envoyer le message"
+        },
+        en: {
+            "nav-about": "About",
+            "nav-education": "Education",
+            "nav-experience": "Experience",
+            "nav-projects": "Projects",
+            "nav-resume": "Resume",
+            "nav-contact": "Contact",
+            "hero-subtitle": "Data Engineering Student",
+            "hero-cta": "View My Work",
+            "about-title": "About Me",
+            "about-text": "5th-year engineering student at EFREI Paris, passionate about data and AI. Seeking a 6-month internship in Data Analysis or Data/IA to apply technical skills, analytical rigor, and teamwork mindset.",
+            "education-title": "Education",
+            "edu-1": "Engineering Cycle in Computer Science specialized in Data Engineering.",
+            "edu-2-title": "Exchange Program",
+            "edu-2": "Manipal, India. Semester abroad in Information Science and Technology.",
+            "edu-3": "Scientific Baccalaureate with honors. Specialties: Mathematics and Physics.",
+            "experience-title": "Professional Experience",
+            "exp-1-1": "BigQuery/Dataiku pipelines processing 50B+ rows for retail analytics.",
+            "exp-1-2": "Developing GenAI 'LLM as a judge' frameworks with LangChain.",
+            "skills-title": "Technical Stack",
+            "projects-title": "Academic Projects",
+            "proj-1": "Engineered a Python pipeline processing 3,779 vulnerabilities. K-Means clustering with 0.024 RMSE for security forecasting.",
+            "proj-2": "Full-stack platform using YOLOv8 for waste detection. Leaflet integration with 80-90% real-time accuracy.",
+            "contact-heading": "Let's Connect",
+            "contact-text": "Currently available for a 6-month Data Engineering or Analytics internship starting 2025.",
+            "form-name": "Full Name",
+            "form-btn": "Send Message"
+        }
+    };
+
+    let currentLang = 'fr';
+    const langToggle = document.getElementById('lang-toggle');
+    const langLabel = document.getElementById('lang-label');
+
+    function updateLanguage(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        langLabel.innerText = lang === 'fr' ? 'EN' : 'FR';
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+    }
+
+    langToggle.addEventListener('click', () => {
+        updateLanguage(currentLang === 'fr' ? 'en' : 'fr');
+    });
+
+    // Typewriting Logic
+    const typewriterElement = document.getElementById('typewriter');
+    const skills = ["Python (Pandas, Numpy)", "Big Data (Spark, Hadoop)", "SQL (BigQuery, PostgreSQL)", "GenAI (LangChain)", "Cloud (Azure)"];
+    let skillIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+
+    function type() {
+        const currentSkill = skills[skillIndex];
+        if (isDeleting) {
+            typewriterElement.textContent = currentSkill.substring(0, charIndex - 1);
+            charIndex--;
+            typingSpeed = 50;
+        } else {
+            typewriterElement.textContent = currentSkill.substring(0, charIndex + 1);
+            charIndex++;
+            typingSpeed = 100;
+        }
+
+        if (!isDeleting && charIndex === currentSkill.length) {
+            isDeleting = true;
+            typingSpeed = 2000; // Pause at end
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            skillIndex = (skillIndex + 1) % skills.length;
+            typingSpeed = 500; // Pause before next
+        }
+
+        setTimeout(type, typingSpeed);
+    }
+    type();
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    themeToggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        const isDark = html.classList.contains('dark');
+        themeToggle.querySelector('span').innerText = isDark ? 'dark_mode' : 'light_mode';
+    });
+
+    // Custom Cursor Logic
+    const cursor = document.getElementById('custom-cursor');
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX - 12}px`;
+        cursor.style.top = `${e.clientY - 12}px`;
+    });
+    document.querySelectorAll('a, button, input, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Scroll Reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body></html>
