@@ -218,7 +218,7 @@
 </div>
 <div class="md:col-span-5 flex justify-center reveal active">
 <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-3xl overflow-hidden group border border-primary/20">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhyga5D11QuXvYE89uhOxmfuCKR5NhvzpwscB4CzSsAg_z3cWvngov32qvPGMTKqxDhomiEzS3RqlNLsaOFCwPvtBfvllEE8e1gy5wj4GTjzH6TjadSTnJ0vI4du0eaM3q-2GqQPnVbFP1gbgBiQlFQSjfmSMS_wzYVUfIS-zf8wN8DaW69-_9kFt5q5OEJxIGiF8q-awt6pVqGFTYeNsDDQ0d7lQWWWpufM92qzocIe7qHMYUBtPBgjKlTBFtdxJ7hPjjdxGlPu5S"/>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" src="pp portfolio.png"/>
 <div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
 <div class="absolute inset-0 border-2 border-primary/50 m-4 rounded-2xl pointer-events-none group-hover:m-0 transition-all"></div>
 </div>
@@ -500,6 +500,7 @@ LinkedIn
             "projects-title": "Projets Académiques",
             "proj-1": "Pipeline Python traitant 3 779 vulnérabilités. Clustering K-Means avec RMSE de 0,024 pour les prévisions de sécurité.",
             "proj-2": "Plateforme full-stack utilisant YOLOv8 pour la détection des déchets. Intégration Leaflet avec 80-90% de précision.",
+            "resume-cta": "Voir mon CV",
             "contact-heading": "Parlons Ensemble",
             "contact-text": "Disponible pour un stage de 6 mois en Data Engineering ou Analytics à partir de 2025.",
             "form-name": "Nom Complet",
@@ -528,6 +529,7 @@ LinkedIn
             "projects-title": "Academic Projects",
             "proj-1": "Engineered a Python pipeline processing 3,779 vulnerabilities. K-Means clustering with 0.024 RMSE for security forecasting.",
             "proj-2": "Full-stack platform using YOLOv8 for waste detection. Leaflet integration with 80-90% real-time accuracy.",
+            "resume-cta": "View My Resume",
             "contact-heading": "Let's Connect",
             "contact-text": "Currently available for a 6-month Data Engineering or Analytics internship starting 2025.",
             "form-name": "Full Name",
@@ -605,6 +607,24 @@ LinkedIn
         el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
+
+    // CV Toggle
+    const cvToggleBtn = document.getElementById('cv-toggle-btn');
+    const cvContainer = document.getElementById('cv-container');
+    if (cvToggleBtn && cvContainer) {
+        cvToggleBtn.addEventListener('click', () => {
+            const isHidden = cvContainer.classList.contains('hidden');
+            cvContainer.classList.toggle('hidden');
+            cvContainer.classList.toggle('opacity-0');
+            if (isHidden) {
+                setTimeout(() => cvContainer.classList.remove('opacity-0'), 10);
+                cvToggleBtn.querySelector('span:last-child').textContent = 'expand_less';
+            } else {
+                cvContainer.classList.add('opacity-0');
+                cvToggleBtn.querySelector('span:last-child').textContent = 'expand_more';
+            }
+        });
+    }
 
     // Scroll Reveal
     const observer = new IntersectionObserver((entries) => {
